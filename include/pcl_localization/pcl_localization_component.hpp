@@ -17,6 +17,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 #include "rclcpp_lifecycle/lifecycle_publisher.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "sensor_msgs/msg/imu.hpp"
 #include "nav_msgs/msg/odometry.hpp"
@@ -43,7 +44,7 @@ public:
   void initializeParameters();
   void initializePubSub();
   void initializeRegistration();
-  void initialPoseReceived(geometry_msgs::msg::PoseStamped::SharedPtr msg);
+  void initialPoseReceived(geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
   void mapReceived(sensor_msgs::msg::PointCloud2::SharedPtr msg);
   void odomReceived(nav_msgs::msg::Odometry::ConstSharedPtr msg);
   void imuReceived(sensor_msgs::msg::Imu::ConstSharedPtr msg);
@@ -52,7 +53,7 @@ public:
 
   tf2_ros::TransformBroadcaster broadcaster_;
 
-  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::ConstSharedPtr
+  rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::ConstSharedPtr
     initial_pose_sub_;
   rclcpp_lifecycle::LifecyclePublisher<geometry_msgs::msg::PoseStamped>::SharedPtr
     pose_pub_;
@@ -71,7 +72,7 @@ public:
 
   pcl::Registration<pcl::PointXYZI, pcl::PointXYZI>::Ptr registration_;
   pcl::VoxelGrid<pcl::PointXYZI> voxel_grid_filter_;
-  geometry_msgs::msg::PoseStamped corrent_pose_stamped_;
+  geometry_msgs::msg::PoseStamped current_pose_stamped_;
   nav_msgs::msg::Path path_;
 
   bool map_recieved_{false};
