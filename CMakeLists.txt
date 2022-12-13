@@ -79,6 +79,7 @@ install(TARGETS
 install(DIRECTORY
   launch
   param
+  map
   DESTINATION share/${PROJECT_NAME}/
 )
 

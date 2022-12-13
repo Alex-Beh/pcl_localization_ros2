@@ -16,7 +16,13 @@ import lifecycle_msgs.msg
 
 from ament_index_python.packages import get_package_share_directory
 
+
 def generate_launch_description():
+
+    MAP_DIRECTORY = os.path.join(
+        get_package_share_directory("pcl_localization_ros2"),
+        'map')
+    map_filename = "bin_tc-2017-10-15--ndmap.pcd"
 
     ld = launch.LaunchDescription()
 
@@ -47,7 +53,11 @@ def generate_launch_description():
         package='pcl_localization_ros2',
         executable='pcl_localization_node',
         remappings=[('/cloud','/points_raw')],
-        parameters=[localization_param_dir],
+        parameters=[    localization_param_dir,
+                        {
+                            "map_path": os.path.join(MAP_DIRECTORY, map_filename)
+                        }
+                    ],
         output='screen')
 
     to_inactive = launch.actions.EmitEvent(
